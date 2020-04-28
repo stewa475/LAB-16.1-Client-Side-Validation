@@ -1,0 +1,250 @@
+﻿@model LAB_11._2_CoffeeShop.Models.MemberRegistration;
+
+@{
+    ViewData["Title"] = "Registration";
+}
+
+<h1>Sign Up</h1>
+<p>It's quick and easy.</p>
+
+<style>
+    .tb {
+    border: 1px solid #9099ae;
+    border-radius: 4px;
+    padding: 4px;
+    }
+
+    .red {
+        color: red;
+    }
+
+    .red-bg {
+        background-color: #FF9999;
+    }
+
+    .red-bd {
+        border-color: red;
+    }
+
+    
+</style>
+
+<form asp-controller="Registration" asp-action="RegistrationConfirmation" method="post" onsubmit="return validateForm()">
+
+    <div class="form-group">
+        <table>
+            <tr>
+                <th style="font-weight:normal"><span class="text-danger field-validation-valid" id="FirstNameFeedback"></span></th>
+                <th style="font-weight:normal"><span class="text-danger field-validation-valid" id="LastNameFeedback"></span></th>
+            </tr>
+            <tr>
+                <td><input class="tb" type="text" id="FirstName" name="FirstName" placeholder="First Name" value="" />&emsp;</td>
+                <td><input class="tb" type="text" id="LastName" name="LastName" placeholder="Last Name" value="" /></td>
+            </tr>
+        </table>
+    </div>
+    <div class="form-group">
+        <table>
+            <tr>
+                <th style="font-weight:normal"><span class="text-danger field-validation-valid" id="EmailFeedback"></span></th>
+                <th style="font-weight:normal"><span class="text-danger field-validation-valid" id="MobileFeedback"></span></th>
+            </tr>
+            <tr>
+                <td><input class="tb" type="text" id="Email" name="Email" placeholder="Email" value="" />&emsp;</td>
+                <td><input class="tb" type="text" id="Mobile" name="Mobile" placeholder="Mobile" value="" /></td>
+            </tr>
+        </table>
+    </div>
+    <input asp-for="Newsletter" type="checkbox" data-val="true" name="Newsletter" value="true" />&nbsp;Check to receive our monthly newsletter.&nbsp;
+    <input asp-for="Newsletter" type="hidden" name="Newsletter" value="false" /><br />
+    <span class="text-danger field-validation-valid" id="PasswordFeedback"></span><br />
+    <div class="form-group">
+        <table>
+            <tr>
+                <td><input class="tb" type="password" id="Password" name="Password" placeholder="New Password" value="" />&emsp;</td>
+                <td><input class="tb" type="password" id="ConfirmPassword" name="ConfirmPassword" placeholder="Confirm Password" value="" /></td>
+            </tr>
+        </table>
+    </div>
+    <small>
+        Must contain at least 8 characters.<br />
+        Must contain at least 1 lowercase character.<br />
+        Must contain at least 1 uppercase character.<br />
+        Must contain at least 1 numeric character.<br />
+        Must contain at least one special character (!@@#$%^&*).<br />
+    </small>
+
+    <br />
+    <fieldset>
+        <legend>Birthday</legend>
+        <select asp-for="BirthMonth">
+
+            @{
+                string[] months = MemberItems.Months;
+                foreach (string m in months)
+                {
+                    <option>@m</option>
+                }
+            }
+        </select>
+        <select asp-for="BirthDay">
+
+            @{
+                string[] days = MemberItems.Days;
+                foreach (string d in days)
+                {
+                    <option>@d.ToString()</option>
+                }
+            }
+        </select>
+        <select asp-for="BirthYear">
+
+            @{
+                string[] years = MemberItems.Years;
+                foreach (string y in years)
+                {
+                    <option>@y</option>
+                }
+            }
+        </select>
+    </fieldset>
+
+    <br />
+    <fieldset>
+        <legend>Gender</legend>
+        <input asp-for="Gender" type="radio" name="gender" value="Female" />&nbsp;Female&nbsp;
+        <input asp-for="Gender" type="radio" name="gender" value="Male" />&nbsp;Male&nbsp;
+        <input asp-for="Gender" type="radio" name="gender" value="Custom" />&nbsp;Custom&nbsp;
+    </fieldset>
+    <br />
+    <div id="Feedback"></div>
+    <input type="submit" value="Sign Up!" class="submitButton" />
+</form>
+
+<script>function validateForm() {
+        let result = validateFirstName() & validateLastName() & validateEmail() & validatePassword();
+
+        if (!result) {
+            document.querySelector("#Feedback").innerHTML = "Your form has errors. See above.";
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    function validateFirstName() {
+        let name = document.querySelector("#FirstName").value;
+        let warning = '';
+
+        if (!name || name.length < 3) {
+            warning += 'Name is too short. ';
+        } else if (name.length > 30) {
+            warning += 'Name is too long. ';
+        }
+
+        if (warning == '') {
+            document.querySelector("#FirstName").classList.remove('red-bd');
+            document.querySelector("#FirstNameFeedback").innerHTML = '';
+            return true;
+        } else {
+            //display the warning in the span set up for it
+            document.querySelector("#FirstNameFeedback").innerHTML = warning;
+            //add a CSS class to an element
+            document.querySelector("#FirstName").classList.add('red-bd');
+            return false;
+        }
+    }
+
+    function validateLastName() {
+        let name = document.querySelector("#LastName").value;
+        let warning = '';
+
+        if (!name || name.length < 3) {
+            warning += 'Name is too short. ';
+        } else if (name.length > 30) {
+            warning += 'Name is too long. ';
+        }
+
+        if (warning == '') {
+            document.querySelector("#LastName").classList.remove('red-bd');
+            document.querySelector("#LastNameFeedback").innerHTML = '';
+            return true;
+        } else {
+            document.querySelector("#LastNameFeedback").innerHTML = warning;
+            document.querySelector("#LastName").classList.add('red-bd');
+            return false;
+        }
+    }
+
+    function validateEmail() {
+        let email = document.querySelector("#Email").value;
+        let warning = '';
+        let patternEmail = new RegExp("^([A-z\d\.-]{2,30})@@[A-Za-z]{2,10}[.](([A-za-z]{2,3})|([A-za-z]{2}\.[A-za-z]{2,3}))$");
+
+        if (email = patternEmail.exec(email)) {
+            warning += '';
+        } else {
+            warning += 'Enter a valid email. ';
+        }
+        
+        if (warning == '') {
+            document.querySelector("#Email").classList.remove('red-bd');
+            document.querySelector("#EmailFeedback").innerHTML = '';
+            return true;
+        } else {
+            document.querySelector("#EmailFeedback").innerHTML = warning;
+            document.querySelector("#Email").classList.add('red-bd');
+            return false;
+        }
+    }
+
+    function validateMobile() {
+        let mobile = document.querySelector("#Mobile").value;
+        let warning = '';
+        let patternMobile = new RegExp("^([1-9].{0,0})(\d.{8,8})$");
+
+        if (mobile = patternMobile.exec(mobile)) {
+            warning += '';
+        } else {
+            warning += 'Enter a valid 10 digit mobile. ';
+        }
+        
+        if (warning == '') {
+            document.querySelector("#Mobile").classList.remove('red-bd');
+            document.querySelector("#MobileFeedback").innerHTML = '';
+            return true;
+        } else {
+            document.querySelector("#MobileFeedback").innerHTML = warning;
+            document.querySelector("#Mobile").classList.add('red-bd');
+            return false;
+        }
+    }
+
+    function validatePassword() {
+        let password = document.querySelector("#Password").value;
+        let confirmPassword = document.querySelector("#ConfirmPassword").value;
+        let warning = '';
+        let patternPassword = new RegExp("^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s)(?=.*[!@@#\$%\^&\*]).{8,}$");
+
+        if ((password = patternPassword.exec(password)) && (password = confirmPassword)) {
+            warning += '';
+        } else {
+            warning += 'Enter a valid Password & Confirmation. ';
+        }
+        
+        if (warning == '') {
+            document.querySelector("#Password").classList.remove('red-bd');
+            document.querySelector("#ConfirmPassword").classList.remove('red-bd');
+            document.querySelector("#PasswordFeedback").innerHTML = '';
+            return true;
+        } else {
+            document.querySelector("#PasswordFeedback").innerHTML = warning;
+            document.querySelector("#Password").classList.add('red-bd');
+            document.querySelector("#ConfirmPassword").classList.add('red-bd');
+            return false;
+        }
+    }
+</script>
+
+
+

@@ -122,7 +122,7 @@
 </form>
 
 <script>function validateForm() {
-        let result = validateFirstName() & validateLastName() & validateEmail() & validatePassword();
+        let result = validateFirstName() & validateLastName() & validateEmail() & validateMobile() & validatePassword();
 
         if (!result) {
             document.querySelector("#Feedback").innerHTML = "Your form has errors. See above.";
@@ -147,9 +147,7 @@
             document.querySelector("#FirstNameFeedback").innerHTML = '';
             return true;
         } else {
-            //display the warning in the span set up for it
             document.querySelector("#FirstNameFeedback").innerHTML = warning;
-            //add a CSS class to an element
             document.querySelector("#FirstName").classList.add('red-bd');
             return false;
         }
@@ -181,7 +179,7 @@
         let warning = '';
         let patternEmail = new RegExp("^([A-z\d\.-]{2,30})@@[A-Za-z]{2,10}[.](([A-za-z]{2,3})|([A-za-z]{2}\.[A-za-z]{2,3}))$");
 
-        if (email = patternEmail.exec(email)) {
+        if (patternEmail.exec(email)) {
             warning += '';
         } else {
             warning += 'Enter a valid email. ';
@@ -201,9 +199,9 @@
     function validateMobile() {
         let mobile = document.querySelector("#Mobile").value;
         let warning = '';
-        let patternMobile = new RegExp("^([1-9].{0,0})(\d.{8,8})$");
+        let patternMobile = new RegExp("^([1-9].{0,0})([0-9].{8,8})$");
 
-        if (mobile = patternMobile.exec(mobile)) {
+        if (patternMobile.exec(mobile)) {
             warning += '';
         } else {
             warning += 'Enter a valid 10 digit mobile. ';
@@ -226,7 +224,7 @@
         let warning = '';
         let patternPassword = new RegExp("^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s)(?=.*[!@@#\$%\^&\*]).{8,}$");
 
-        if ((password = patternPassword.exec(password)) && (password = confirmPassword)) {
+        if ((patternPassword.exec(password)) && (password == confirmPassword)) {
             warning += '';
         } else {
             warning += 'Enter a valid Password & Confirmation. ';

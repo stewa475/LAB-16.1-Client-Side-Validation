@@ -45,30 +45,30 @@ namespace LAB_11._2_CoffeeShop.Models
         [DisplayName("News Letter")]
         public bool Newsletter { get => newsletter; set => newsletter = value; }
 
-        [Required]
+        //[Required]
         public string BirthMonth { get => birthMonth; set => birthMonth = value; }
 
-        [Required]
+        //[Required]
         public string BirthDay { get => birthDay; set => birthDay = value; }
 
-        [Required]
+        //[Required]
         public string BirthYear { get => birthYear; set => birthYear = value; }
 
         [DisplayName("Gender")]
-        [Required]
+        //[Required]
         public string Gender { get => gender; set => gender = value; }
 
         [DisplayName("Password")]
-        [RegularExpression(@"^((?=.*[A-Z]).(?=.*\d).{10,})$")]
-        [Required]
-        [DataType(DataType.Password)]
+        //[RegularExpression(@"^((?=.*[A-Z]).(?=.*\d).{10,})$")]
+        //[Required]
+        //[DataType(DataType.Password)]
         public string Password { get => password; set => password = value; }
 
         [DisplayName("Confirm Password")]
-        [RegularExpression(@"^((?=.*[A-Z]).(?=.*\d).{10,})$")]
-        [Required]
-        [DataType(DataType.Password)]
-        [Compare("Password")]
+        //[RegularExpression(@"^((?=.*[A-Z]).(?=.*\d).{10,})$")]
+        //[Required]
+        //[DataType(DataType.Password)]
+        //[Compare("Password")]
         public string ConfirmPassword { get => confirmPassword; set => confirmPassword = value; }
         
     }
